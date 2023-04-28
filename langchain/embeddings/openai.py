@@ -107,6 +107,7 @@ class OpenAIEmbeddings(BaseModel, Embeddings):
     model: str = "text-embedding-ada-002"
     deployment: str = model  # to support Azure OpenAI Service custom deployment names
     engine: str = model
+    openai_api_version: str = "2022-12-01"
     openai_api_base: Optional[str] = None # to support Azure OpenAI Service custom endpoints
     openai_api_type: Optional[str] = None # to support Azure OpenAI Service custom endpoints
     embedding_ctx_length: int = 8191
@@ -142,6 +143,11 @@ class OpenAIEmbeddings(BaseModel, Embeddings):
             "OPENAI_API_TYPE",
             default="",
         )
+        openai_api_version = get_from_dict_or_env(
+            values,
+            "openai_api_version",
+            "OPENAI_API_VERSION",
+        )
         openai_organization = get_from_dict_or_env(
             values,
             "openai_organization",
@@ -156,6 +162,7 @@ class OpenAIEmbeddings(BaseModel, Embeddings):
                 openai.organization = openai_organization
             if openai_api_base:
                 openai.api_base = openai_api_base
+                openai.api_version = openai_api_version
             if openai_api_type:
                 openai.api_type = openai_api_type
             values["client"] = openai.Embedding
