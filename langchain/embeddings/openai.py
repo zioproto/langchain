@@ -106,6 +106,7 @@ class OpenAIEmbeddings(BaseModel, Embeddings):
     client: Any  #: :meta private:
     model: str = "text-embedding-ada-002"
     deployment: str = model  # to support Azure OpenAI Service custom deployment names
+    engine: str = model
     openai_api_base: Optional[str] = None # to support Azure OpenAI Service custom endpoints
     openai_api_type: Optional[str] = None # to support Azure OpenAI Service custom endpoints
     embedding_ctx_length: int = 8191
